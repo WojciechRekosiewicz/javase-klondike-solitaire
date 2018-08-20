@@ -78,7 +78,7 @@ public class Game extends Pane {
             return;
         Card card = (Card) e.getSource();
         Pile pile = getValidIntersectingPile(card, tableauPiles);
-        //TODO
+        //TODO ????????
         if (pile != null) {
             handleValidMove(card, pile);
         } else {
@@ -106,9 +106,14 @@ public class Game extends Pane {
     }
 
     public void refillStockFromDiscard() {
-        //TODO
-        System.out.println("Stock refilled from discard pile.");
-    }
+        List<Card> discardedCards = discardPile.getCards();
+        for (Card card : discardedCards){
+            card.flip();
+            stockPile.addCard(card);
+        }
+                    System.out.println("Stock refilled from discard pile.");
+        }
+
 
     public boolean isMoveValid(Card card, Pile destPile) {
         //TODO
