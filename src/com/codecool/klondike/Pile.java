@@ -40,7 +40,6 @@ public class Pile extends Pane {
     }
 
     public int numOfCards() {
-        //TODO
         return cards.size();
     }
 
