@@ -42,6 +42,11 @@ public class Card extends ImageView {
         return rank.value;
     }
 
+    public RankEnum getRankName() {
+        return rank;
+    }
+
+
     public boolean isFaceDown() {
         return faceDown;
     }
@@ -78,12 +83,11 @@ public class Card extends ImageView {
     }
 
     public static boolean isOppositeColor(Card card1, Card card2) {
-        //TODO
-        return true;
+        return (!card1.suit.color.equals(card2.suit.color));
     }
 
     public static boolean isSameSuit(Card card1, Card card2) {
-        return card1.getSuit() == card2.getSuit();
+        return card1.suit.name.equals(card2.suit.name);
     }
 
     public static List<Card> createNewDeck() {

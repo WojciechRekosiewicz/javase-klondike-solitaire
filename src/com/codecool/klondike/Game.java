@@ -119,9 +119,26 @@ public class Game extends Pane {
 
 
     public boolean isMoveValid(Card card, Pile destPile) {
-        //TODO
-        return true;
+        Card topCard = destPile.getTopCard();
+        switch (destPile.getPileType()) {
+            case STOCK:
+                return false;
+            case DISCARD:
+                return false;
+            case FOUNDATION:
+                if (topCard != null) return(Card.isSameSuit(card, topCard) && card.getRank() == topCard.getRank() + 1);
+                else return(card.getRankName() == RankEnum.ACE);
+            case TABLEAU:
+                if (topCard != null) return(Card.isSameSuit(card, topCard) && card.getRank() == topCard.getRank() - 1);
+                else return(card.getRankName() == RankEnum.KING);
+            default:
+                    return false;
+        }
+
     }
+
+
+
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
         Pile result = null;
         for (Pile pile : piles) {
@@ -132,6 +149,7 @@ public class Game extends Pane {
         }
         return result;
     }
+
 
     private boolean isOverPile(Card card, Pile pile) {
         if (pile.isEmpty())
