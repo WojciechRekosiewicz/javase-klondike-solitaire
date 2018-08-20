@@ -98,7 +98,14 @@ public class Card extends ImageView {
 
     public static void loadCardImages() {
         cardBackImage = new Image("card_images/card_back.png");
-        String suitName = "";
+        SuitEnum cardSuit = null;
+        String suitName = "hearts";
+        for (SuitEnum suit : SuitEnum.values()) {
+            cardSuit = suit;
+        }
+        System.out.println(cardSuit.name + cardSuit.color);
+
+        /*
         for (int suit = 1; suit < 5; suit++) {
             switch (suit) {
                 case 1:
@@ -114,13 +121,18 @@ public class Card extends ImageView {
                     suitName = "clubs";
                     break;
             }
+            */
+
+
+
+
             for (int rank = 1; rank < 14; rank++) {
-                String cardName = suitName + rank;
-                String cardId = "S" + suit + "R" + rank;
+                String cardName = cardSuit.name + rank;
+                String cardId = "S" +  cardSuit.name + "R" + rank;
                 String imageFileName = "card_images/" + cardName + ".png";
                 cardFaceImages.put(cardId, new Image(imageFileName));
             }
         }
     }
 
-}
+
