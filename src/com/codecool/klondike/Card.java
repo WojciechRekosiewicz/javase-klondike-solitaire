@@ -10,7 +10,7 @@ import java.util.*;
 public class Card extends ImageView {
 
     private SuitEnum suit;
-    private int rank;
+    private RankEnum rank;
     private boolean faceDown;
 
     private Image backFace;
@@ -23,7 +23,7 @@ public class Card extends ImageView {
     public static final int WIDTH = 150;
     public static final int HEIGHT = 215;
 
-    public Card(SuitEnum suit, int rank, boolean faceDown) {
+    public Card(SuitEnum suit, RankEnum rank, boolean faceDown) {
         this.suit = suit;
         this.rank = rank;
         this.faceDown = faceDown;
@@ -34,12 +34,12 @@ public class Card extends ImageView {
         setEffect(dropShadow);
     }
 
-    public SuitEnum getSuit() {
-        return suit;
+    public String getSuit() {
+        return suit.name;
     }
 
     public int getRank() {
-        return rank;
+        return rank.value;
     }
 
     public boolean isFaceDown() {
@@ -47,7 +47,7 @@ public class Card extends ImageView {
     }
 
     public String getShortName() {
-        return "S" + suit.name + "R" + rank;
+        return "S" + suit.name + "R" + rank.value;
     }
 
     public DropShadow getDropShadow() {
@@ -74,7 +74,7 @@ public class Card extends ImageView {
 
     @Override
     public String toString() {
-        return "The " + "Rank" + rank + " of " + "Suit" + suit.name;
+        return "The " + "Rank" + rank.value + " of " + "Suit" + suit.name;
     }
 
     public static boolean isOppositeColor(Card card1, Card card2) {
@@ -89,8 +89,8 @@ public class Card extends ImageView {
     public static List<Card> createNewDeck() {
         List<Card> result = new ArrayList<>();
         for (SuitEnum cardSuit : SuitEnum.values()) {
-            for (int rank = 1; rank < 14; rank++) {
-                result.add(new Card(cardSuit, rank, true));
+            for (RankEnum cardRank : RankEnum.values()) {
+                result.add(new Card(cardSuit, cardRank, true));
             }
         }
         return result;
@@ -98,18 +98,22 @@ public class Card extends ImageView {
 
     public static void loadCardImages() {
         cardBackImage = new Image("card_images/card_back.png");
-        SuitEnum suit = null;
-        for (SuitEnum cardSuit : SuitEnum.values()) {
-            suit = cardSuit;
-        }
+        SuitEnum suit;
+        RankEnum rank;
+        for (SuitEnum suitEn : SuitEnum.values()) {
+            suit = suitEn;
 
-        for (int rank = 1; rank < 14; rank++) {
-            String cardName = suit.name + rank;
-            String cardId = "S" +  suit.name + "R" + rank;
-            String imageFileName = "card_images/" + cardName + ".png";
-            cardFaceImages.put(cardId, new Image(imageFileName));
+            for (RankEnum rankEn : RankEnum.values()) {
+                rank = rankEn;
+                String cardName = suit.name + rank.value;
+                System.out.println("CARDNAME: " + cardName);
+                String cardId = "S" + suit.name + "R" + rank.value;
+                String imageFileName = "card_images/" + cardName + ".png";
+                cardFaceImages.put(cardId, new Image(imageFileName));
+
             }
         }
     }
+}
 
 
