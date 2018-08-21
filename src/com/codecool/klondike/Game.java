@@ -16,6 +16,7 @@ import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 public class Game extends Pane {
 
@@ -112,6 +113,7 @@ public class Game extends Pane {
 
     public boolean isMoveValid(Card card, Pile destPile) {
         //TODO
+
         return true;
     }
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
@@ -181,8 +183,35 @@ public class Game extends Pane {
     }
 
     public void dealCards() {
+
+        int x = deck.size();
+        Random random = new Random();
+        List<Card> shuffleDeck = new ArrayList<>(deck.size());
+        List index = new ArrayList<>();
+
+        for(int i = 0; i < x; i++){
+
+            int randomIndex = random.nextInt(deck.size()-1);
+
+            if (!(index.contains(randomIndex))) {
+
+                shuffleDeck.add(deck.get(randomIndex));
+                System.out.println(random.nextInt(deck.size() - 1));
+                deck.remove(randomIndex);
+                index.add(randomIndex);
+            }
+
+        }
+        System.out.println(index);
+
+        System.out.println(shuffleDeck);
+        System.out.println(deck);
+        //deck.clear();
+        deck.addAll(shuffleDeck);
+
         Iterator<Card> deckIterator = deck.iterator();
         //TODO
+
         deckIterator.forEachRemaining(card -> {
             stockPile.addCard(card);
             addMouseEventHandlers(card);
@@ -190,6 +219,9 @@ public class Game extends Pane {
         });
 
     }
+
+
+
 
     public void setTableBackground(Image tableBackground) {
         setBackground(new Background(new BackgroundImage(tableBackground,
