@@ -4,6 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -13,10 +15,7 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Collections;
+import java.util.*;
 
 public class Game extends Pane {
 
@@ -34,6 +33,7 @@ public class Game extends Pane {
     private static double FOUNDATION_GAP = 0;
     private static double TABLEAU_GAP = 30;
 
+    private Label label;
 
     private EventHandler<MouseEvent> onMouseClickedHandler = e -> {
         Card card = (Card) e.getSource();
@@ -91,14 +91,34 @@ public class Game extends Pane {
     public boolean isGameWon() {
         for (Pile pile : foundationPiles) {
             if (pile.numOfCards() != 13) return false;
-        }
+        } restartGame();
         return true;
+    }
+
+    public void restartGame() {
+        if (isGameWon() == true) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Kongrateljszyn");
+            alert.setHeaderText("You WIN!");
+            alert.setContentText("Are you want to restart?");
+            Optional<ButtonType> option = alert.showAndWait();
+            if (option.get() == null) {
+                this.label.setText("No selection!");
+            } else if (option.get() == ButtonType.OK) {
+                System.out.println("ok");
+            } else if (option.get() == ButtonType.CANCEL) {
+                System.exit(0);
+            } else {
+                this.label.setText("-");
+            }
+        }
     }
 
     public Game() {
         deck = Card.createNewDeck();
         initPiles();
         dealCards();
+
     }
 
     public void addMouseEventHandlers(Card card) {
@@ -211,6 +231,24 @@ public class Game extends Pane {
     public void dealCards() {
         Iterator<Card> deckIterator = deck.iterator();
         //TODO
+
+//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert.setTitle("Kongrateljszyn");
+//        alert.setHeaderText("You WIN!");
+//        alert.setContentText("Are you want to restart?");
+//        Optional<ButtonType> option = alert.showAndWait();
+//
+//        if (option.get() == null) {
+//            this.label.setText("No selection!");
+//        } else if (option.get() == ButtonType.OK) {
+//            System.out.println("ok");
+//        } else if (option.get() == ButtonType.CANCEL) {
+//            System.exit(0);
+//        } else {
+//            this.label.setText("-");
+//        }
+
+
         deckIterator.forEachRemaining(card -> {
             stockPile.addCard(card);
             addMouseEventHandlers(card);
