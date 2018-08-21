@@ -30,7 +30,7 @@ public class Game extends Pane {
     private double dragStartX, dragStartY;
     private List<Card> draggedCards = FXCollections.observableArrayList();
 
-    private static double STOCK_GAP = 1;
+    private static double STOCK_GAP = 0;
     private static double FOUNDATION_GAP = 0;
     private static double TABLEAU_GAP = 30;
 
