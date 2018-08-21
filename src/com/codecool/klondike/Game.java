@@ -232,23 +232,6 @@ public class Game extends Pane {
         Iterator<Card> deckIterator = deck.iterator();
         //TODO
 
-//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//        alert.setTitle("Kongrateljszyn");
-//        alert.setHeaderText("You WIN!");
-//        alert.setContentText("Are you want to restart?");
-//        Optional<ButtonType> option = alert.showAndWait();
-//
-//        if (option.get() == null) {
-//            this.label.setText("No selection!");
-//        } else if (option.get() == ButtonType.OK) {
-//            System.out.println("ok");
-//        } else if (option.get() == ButtonType.CANCEL) {
-//            System.exit(0);
-//        } else {
-//            this.label.setText("-");
-//        }
-
-
         deckIterator.forEachRemaining(card -> {
             stockPile.addCard(card);
             addMouseEventHandlers(card);
