@@ -84,13 +84,15 @@ public class Game extends Pane {
             handleValidMove(card, pile);
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
-            draggedCards = null;
+            draggedCards.clear(); // zmiast draggedcards = null
         }
     };
 
     public boolean isGameWon() {
-        //TODO
-        return false;
+        for (Pile pile : foundationPiles) {
+            if (pile.numOfCards() != 13) return false;
+        }
+        return true;
     }
 
     public Game() {
@@ -110,11 +112,11 @@ public class Game extends Pane {
         List<Card> discardedCards = discardPile.getCards();
         Collections.reverse(discardedCards);
         for (Card card : discardedCards){
-            card.flip();
+            if (!card.isFaceDown()) card.flip();
             stockPile.addCard(card);
             }
-
-         System.out.println("Stock refilled from discard pile.");
+        discardPile.clear();
+        System.out.println("Stock refilled from discard pile.");
         }
 
 
@@ -127,10 +129,10 @@ public class Game extends Pane {
                 return false;
             case FOUNDATION:
                 if (topCard != null) return(Card.isSameSuit(card, topCard) && card.getRank() == topCard.getRank() + 1);
-                else return(card.getRankName() == RankEnum.ACE);
+                else return(card.getRankName().equals(RankEnum.ACE));
             case TABLEAU:
-                if (topCard != null) return(Card.isSameSuit(card, topCard) && card.getRank() == topCard.getRank() - 1);
-                else return(card.getRankName() == RankEnum.KING);
+                if (topCard != null) return(Card.isOppositeColor(card, topCard) && card.getRank() == topCard.getRank() - 1);
+                else return(card.getRankName().equals(RankEnum.KING));
             default:
                     return false;
         }
