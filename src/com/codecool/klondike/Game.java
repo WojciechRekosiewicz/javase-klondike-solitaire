@@ -27,7 +27,8 @@ public class Game extends Pane {
     private List<Pile> tableauPiles = FXCollections.observableArrayList();
 
     private double dragStartX, dragStartY;
-    private List<Card> draggedCards = FXCollections.observableArrayList();
+    private List<Card> draggedCards = FXCollections.observableArrayList();  //draggedCards for view purpose
+    private List<Card> drCards = FXCollections.observableArrayList(); //draggedCards for model purpose
 
     private static double STOCK_GAP = 0;
     private static double FOUNDATION_GAP = 0;
@@ -83,6 +84,7 @@ public class Game extends Pane {
         if (pile != null) {
             handleValidMove(card, pile);
         } else {
+
             draggedCards.forEach(MouseUtil::slideBack);
             draggedCards.clear(); // zmiast draggedcards = null
         }
@@ -190,8 +192,22 @@ public class Game extends Pane {
         } else {
             msg = String.format("Placed %s to %s.", card, destPile.getTopCard());
         }
+
+
+        // ###DRAG CARDS  - przenosi kilka kart naraz###
+        Pile activePile = card.getContainingPile();
+        if (activePile.getPileType() == Pile.PileType.TABLEAU && destPile.getPileType() == Pile.PileType.TABLEAU) { // dziala tylko dla kart przenoszonych z tableu na tableu
+            int start = activePile.getCards().indexOf(card);
+            int stop = activePile.getCards().size();
+            drCards = activePile.getCards().subList(start, stop); // wycina kawalek z listy kart od indexu przenoszonej karty do konca listy.
+        }
         System.out.println(msg);
-        MouseUtil.slideToDest(draggedCards, destPile);
+        if (drCards.size() != 0) MouseUtil.slideToDest(drCards, destPile);
+        else MouseUtil.slideToDest(draggedCards, destPile);
+        drCards.clear();
+        //######
+
+        System.out.println(msg);
         draggedCards.clear();
     }
 
