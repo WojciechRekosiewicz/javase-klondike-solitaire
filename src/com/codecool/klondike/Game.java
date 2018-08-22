@@ -196,31 +196,44 @@ public class Game extends Pane {
             if (!(index.contains(randomIndex))) {
 
                 shuffleDeck.add(deck.get(randomIndex));
-                System.out.println(random.nextInt(deck.size() - 1));
                 deck.remove(randomIndex);
                 index.add(randomIndex);
             }
 
         }
-        System.out.println(index);
-
-        System.out.println(shuffleDeck);
-        System.out.println(deck);
         //deck.clear();
         deck.addAll(shuffleDeck);
 
-        Iterator<Card> deckIterator = deck.iterator();
         //TODO
+
+        ArrayList<Card> shuffleDeckPart = new ArrayList<Card>(shuffleDeck.subList(0, 28));
+        System.out.println(shuffleDeckPart);
+        int a = 0;
+
+        for(int i = 1; i < tableauPiles.size()+1; i++){
+
+            ArrayList<Card> dealPiles = new ArrayList<Card>(shuffleDeckPart.subList(a,(a+i)));
+
+            for(int j = 0; j < dealPiles.size(); j++) {
+                //System.out.println(dealPiles.get(j));
+                tableauPiles.get(i-1).addCard(dealPiles.get(j));
+
+            }
+            a=a+i;
+            System.out.println(tableauPiles.get(i-1).getCards());
+        }
+
+
+        Iterator<Card> deckIterator = deck.iterator();
 
         deckIterator.forEachRemaining(card -> {
             stockPile.addCard(card);
             addMouseEventHandlers(card);
             getChildren().add(card);
+
         });
 
     }
-
-
 
 
     public void setTableBackground(Image tableBackground) {
