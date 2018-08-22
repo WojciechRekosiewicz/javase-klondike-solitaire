@@ -122,9 +122,6 @@ public class Card extends ImageView {
         }
     }
 
-    public Object clone()  {
-        return new Card(this.suit, this.rank, this.faceDown);
-    }
 }
 
 

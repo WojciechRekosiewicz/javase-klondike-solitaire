@@ -140,13 +140,6 @@ public class Game extends Pane {
     }
 
     private void handleValidMove(Card card, Pile destPile) {
-        Pile activePile = card.getContainingPile();
-        allCards = activePile.getCards();
-        /*for(Card c : allCards) {
-            Card copy = (Card)c.clone();
-            drCards.add(copy);
-        }
-            */
         System.out.println("HANDLE VALID");
         String msg = null;
         if (destPile.isEmpty()) {
@@ -158,23 +151,24 @@ public class Game extends Pane {
             msg = String.format("Placed %s to %s.", card, destPile.getTopCard());
         }
 
+        Pile activePile = card.getContainingPile();
 
-        if (activePile.getPileType() == Pile.PileType.TABLEAU) {
-           // drCards.clear();
-            //drCards = allCards;
-            System.out.println("ALL CARDS: "+ allCards);
-            int start = allCards.indexOf(card);
-            int stop = allCards.size();
-            System.out.println("START, STOP : " + start + " " + stop);
-            System.out.println("DR CARDS: " + drCards);
-            moreCards = allCards.subList(start, stop);
-            System.out.println("MORE CARDS: " + moreCards);
-
+        // DRAG CARDS  - przenosi kilka kart naraz
+        if (activePile.getPileType() == Pile.PileType.TABLEAU && destPile.getPileType() == Pile.PileType.TABLEAU) { // dziala tylko dla kart przenoszonych z tableu na tableu
+            int start = activePile.getCards().indexOf(card);
+            int stop = activePile.getCards().size();
+            drCards = activePile.getCards().subList(start, stop); // wycina kawalek z listy kart od indexu przenoszonej karty do konca listy.
         }
-        drCards.clear();
         System.out.println(msg);
-        MouseUtil.slideToDest(draggedCards, destPile);
+        if (drCards.size() != 0)
+        {
+            MouseUtil.slideToDest(drCards, destPile);
+        }
+        else {
+            MouseUtil.slideToDest(draggedCards, destPile);
+        }
         draggedCards.clear();
+        drCards.clear();
     }
 
 
