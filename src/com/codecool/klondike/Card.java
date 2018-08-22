@@ -63,8 +63,15 @@ public class Card extends ImageView {
     }
 
     public void moveToPile(Pile destPile) {
+        Pile oldPile = this.getContainingPile();
+        System.out.println("\n\n\nMOVED CARD" + this);
+        System.out.println("OLD PILE B4" + oldPile.getCards());
+        System.out.println("NEW PILE B4" + destPile.getCards());
+
         this.getContainingPile().getCards().remove(this);
         destPile.addCard(this);
+        System.out.println("\nOLD PILE AFT" + oldPile.getCards());
+        System.out.println("NEW PILE AFT" + destPile.getCards());
     }
 
     public void flip() {
@@ -113,6 +120,10 @@ public class Card extends ImageView {
 
             }
         }
+    }
+
+    public Object clone()  {
+        return new Card(this.suit, this.rank, this.faceDown);
     }
 }
 
