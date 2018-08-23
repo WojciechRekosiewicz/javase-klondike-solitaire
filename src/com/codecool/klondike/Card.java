@@ -42,6 +42,11 @@ public class Card extends ImageView {
         return rank.value;
     }
 
+    public RankEnum getRankName() {
+        return rank;
+    }
+
+
     public boolean isFaceDown() {
         return faceDown;
     }
@@ -74,16 +79,15 @@ public class Card extends ImageView {
 
     @Override
     public String toString() {
-        return "The " + "Rank" + rank.value + " of " + "Suit" + suit.name;
+        return "The " + "Rank " + rank.value + " of " + "Suit " + suit.name;
     }
 
     public static boolean isOppositeColor(Card card1, Card card2) {
-        //TODO
-        return true;
+        return (!card1.suit.color.equals(card2.suit.color));
     }
 
     public static boolean isSameSuit(Card card1, Card card2) {
-        return card1.getSuit() == card2.getSuit();
+        return card1.suit.name.equals(card2.suit.name);
     }
 
     public static List<Card> createNewDeck() {
@@ -106,7 +110,6 @@ public class Card extends ImageView {
             for (RankEnum rankEn : RankEnum.values()) {
                 rank = rankEn;
                 String cardName = suit.name + rank.value;
-                System.out.println("CARDNAME: " + cardName);
                 String cardId = "S" + suit.name + "R" + rank.value;
                 String imageFileName = "card_images/" + cardName + ".png";
                 cardFaceImages.put(cardId, new Image(imageFileName));
