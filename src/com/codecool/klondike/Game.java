@@ -80,6 +80,7 @@ public class Game extends Pane {
             return;
         Card card = (Card) e.getSource();
         Pile pile = getValidIntersectingPile(card, tableauPiles);
+     //   Pile pile = getValidIntersectingPile(card, foundationPiles);
         //TODO ????????
         if (pile != null) {
             handleValidMove(card, pile);
@@ -99,7 +100,7 @@ public class Game extends Pane {
 
     public void restartGame() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Kongrateljszyn");
+        alert.setTitle("Kongratulejszyn");
         alert.setHeaderText("You WIN!");
         alert.setContentText("Are you want to restart?");
         Optional<ButtonType> option = alert.showAndWait();
@@ -107,22 +108,10 @@ public class Game extends Pane {
         if (option.get() == null) {
             this.label.setText("No selection!");
         } else if (option.get() == ButtonType.OK) {
-
-            stockPile.clear();
-            discardPile.clear();
-            for (int i = 0; i < 4; i++){
-                foundationPiles.get(i).clear();
-            }
-            for (int i = 0; i < 7; i++){
-                tableauPiles.get(i).clear();
-            }
-
-            this.setTableBackground(new Image("/table/green.png"));
+            clearBoard();
             deck = Card.createNewDeck();
             initPiles();
             dealCards();
-
-
         } else if (option.get() == ButtonType.CANCEL) {
             System.exit(0);
         } else {
@@ -130,7 +119,13 @@ public class Game extends Pane {
         }
     }
 
-
+    public void clearBoard(){
+        stockPile.clear();
+        discardPile.clear();
+        foundationPiles.clear();
+        tableauPiles.clear();
+        this.getChildren().clear();
+    }
 
     public Game() {
         deck = Card.createNewDeck();
@@ -158,6 +153,7 @@ public class Game extends Pane {
         }
 
 
+
     public boolean isMoveValid(Card card, Pile destPile) {
         Card topCard = destPile.getTopCard();
         switch (destPile.getPileType()) {
@@ -166,8 +162,12 @@ public class Game extends Pane {
             case DISCARD:
                 return false;
             case FOUNDATION:
-                if (topCard != null) return(Card.isSameSuit(card, topCard) && card.getRank() == topCard.getRank() + 1);
-                else return(card.getRankName().equals(RankEnum.ACE));
+                if (topCard != null) {
+                    System.out.println("NO");
+                    return(Card.isSameSuit(card, topCard) && card.getRank() == topCard.getRank() + 1);}
+                else{
+                    System.out.println("YES");
+                    return(card.getRankName().equals(RankEnum.ACE));}
             case TABLEAU:
                 if (topCard != null) return(Card.isOppositeColor(card, topCard) && card.getRank() == topCard.getRank() - 1);
                 else return(card.getRankName().equals(RankEnum.KING));
@@ -225,11 +225,12 @@ public class Game extends Pane {
 
         System.out.println(msg);
         draggedCards.clear();
-//        isGameWon();
-//        //        if (isGameWon() == true){
-////            restartGame();
-////        }
-//        restartGame();
+       isGameWon();
+       System.out.println(isGameWon());
+       if (isGameWon() == true){
+            restartGame();
+        }
+        System.out.println(isGameWon());
     }
 
 

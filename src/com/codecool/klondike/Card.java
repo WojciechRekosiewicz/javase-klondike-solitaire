@@ -39,6 +39,7 @@ public class Card extends ImageView {
     }
 
     public int getRank() {
+        System.out.println(rank.value);
         return rank.value;
     }
 
