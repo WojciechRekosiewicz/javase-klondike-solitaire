@@ -82,10 +82,11 @@ public class Game extends Pane {
         Pile pile = getValidIntersectingPile(card, tableauPiles);
         Pile pile1 = getValidIntersectingPile(card, foundationPiles);
         //TODO ????????
-        if (pile != null || pile1 != null) {
-            card.getContainingPile().getTopCard().flip();
-            handleValidMove(card, pile1);
+        if (pile != null) {
+//            card.getContainingPile().getTopCard().flip();
             handleValidMove(card, pile);
+        }else if (pile1 != null){
+            handleValidMove(card, pile1);
         } else {
 
             draggedCards.forEach(MouseUtil::slideBack);
@@ -284,7 +285,7 @@ public class Game extends Pane {
 
 //    public void dealCards() {
 //        Iterator<Card> deckIterator = deck.iterator();
-//        //TODO
+//
 //
 //        deckIterator.forEachRemaining(card -> {
 //            stockPile.addCard(card);
