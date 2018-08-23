@@ -80,9 +80,11 @@ public class Game extends Pane {
             return;
         Card card = (Card) e.getSource();
         Pile pile = getValidIntersectingPile(card, tableauPiles);
-     //   Pile pile = getValidIntersectingPile(card, foundationPiles);
+        Pile pile1 = getValidIntersectingPile(card, foundationPiles);
         //TODO ????????
-        if (pile != null) {
+        if (pile != null || pile1 != null) {
+            card.getContainingPile().getTopCard().flip();
+            handleValidMove(card, pile1);
             handleValidMove(card, pile);
         } else {
 
@@ -97,6 +99,8 @@ public class Game extends Pane {
             if (foundationPiles.get(i).numOfCards() == 13) {
                 x++;
                 System.out.println(x);
+            } else {
+                System.out.println("niet");
             }
             if (x != 4){
                 return false;
@@ -237,12 +241,12 @@ public class Game extends Pane {
 
         System.out.println(msg);
         draggedCards.clear();
-//        isGameWon();
-//       System.out.println(isGameWon());
-//       if (isGameWon() == true){
-//            restartGame();
-//        }
-//        System.out.println(isGameWon());
+        isGameWon();
+       System.out.println(isGameWon());
+       if (isGameWon() == true){
+            restartGame();
+        }
+        System.out.println(isGameWon());
     }
 
 
