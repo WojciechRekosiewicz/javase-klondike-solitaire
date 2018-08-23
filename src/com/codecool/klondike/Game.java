@@ -225,6 +225,11 @@ public class Game extends Pane {
 
         System.out.println(msg);
         draggedCards.clear();
+//        isGameWon();
+//        //        if (isGameWon() == true){
+////            restartGame();
+////        }
+//        restartGame();
     }
 
 
