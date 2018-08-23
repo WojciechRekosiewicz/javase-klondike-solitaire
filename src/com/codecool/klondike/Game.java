@@ -83,10 +83,25 @@ public class Game extends Pane {
         Pile pileFoundation = getValidIntersectingPile(card, foundationPiles);
         //TODO ????????
         if (pileTableau != null) {
-//            card.getContainingPile().getTopCard().flip();
             handleValidMove(card, pileTableau);
+            Card previous = null;
+            for (Card crd:card.getContainingPile().getCards()){
+
+                if (crd == card ){
+                    previous.flip();
+                }
+                previous = crd;
+            }
         }else if (pileFoundation != null){
             handleValidMove(card, pileFoundation);
+            Card previous = null;
+            for (Card crd:card.getContainingPile().getCards()){
+
+                if (crd == card ){
+                    previous.flip();
+                }
+                previous = crd;
+            }
         } else {
 
             draggedCards.forEach(MouseUtil::slideBack);
@@ -130,6 +145,7 @@ public class Game extends Pane {
             deck = Card.createNewDeck();
             initPiles();
             dealCards();
+            unfoldingCards();
         } else if (option.get() == ButtonType.CANCEL) {
             System.exit(0);
         } else {
@@ -243,6 +259,7 @@ public class Game extends Pane {
         System.out.println(msg);
         draggedCards.clear();
         isGameWon();
+       // restartGame();
        System.out.println(isGameWon());
        if (isGameWon() == true){
             restartGame();
