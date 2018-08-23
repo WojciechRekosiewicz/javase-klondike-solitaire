@@ -112,16 +112,20 @@ public class Game extends Pane {
     public boolean isGameWon() {
         int x = 0;
         for (int i = 0; i < 4; i++){
-            if (foundationPiles.get(i).numOfCards() == 13) {
+            System.out.println(i);
+            if (foundationPiles.get(i).numOfCards() == 12) {
                 x++;
-                System.out.println(x);
+                System.out.println("x is " + x);
+                System.out.println("number of cards is " + foundationPiles.get(i).numOfCards());
             } else {
-                System.out.println("niet");
+               // System.out.println("niet");
+                System.out.println("number of cards is " + foundationPiles.get(i).numOfCards());
+              //  System.out.println(foundationPiles.get(i).getTopCard());
             }
-            if (x != 4){
-                return false;
+            if (x == 4){
+                return true;
             }
-        } return true;
+        } return false;
     }
 
 //    public boolean isGameWon() {
@@ -165,6 +169,7 @@ public class Game extends Pane {
         deck = Card.createNewDeck();
         initPiles();
         dealCards();
+      //  unfoldingCards();
 
     }
 
@@ -256,15 +261,14 @@ public class Game extends Pane {
         drCards.clear();
         //######
 
-        System.out.println(msg);
+     //   System.out.println(msg);
         draggedCards.clear();
         isGameWon();
-       // restartGame();
-       System.out.println(isGameWon());
+      // restartGame();
        if (isGameWon() == true){
             restartGame();
         }
-        System.out.println(isGameWon());
+       // System.out.println(isGameWon());
     }
 
 
@@ -361,7 +365,7 @@ public class Game extends Pane {
 
             }
             a=a+i;
-            System.out.println(tableauPiles.get(i-1).getCards());
+    //        System.out.println(tableauPiles.get(i-1).getCards());
             tableauPiles.get(i-1).getTopCard().flip();
 
         }
