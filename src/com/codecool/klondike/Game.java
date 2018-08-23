@@ -92,11 +92,24 @@ public class Game extends Pane {
     };
 
     public boolean isGameWon() {
-        for (Pile pile : foundationPiles) {
-            if (pile.numOfCards() != 13) return false;
-        } restartGame();
-        return true;
+        int x = 0;
+        for (int i = 0; i < 4; i++){
+            if (foundationPiles.get(i).numOfCards() == 13) {
+                x++;
+                System.out.println(x);
+            }
+            if (x != 4){
+                return false;
+            }
+        } return true;
     }
+
+//    public boolean isGameWon() {
+//        for (Pile pile : foundationPiles) {
+//            if (pile.numOfCards() != 13) return false;
+//        } restartGame();
+//        return true;
+//    }
 
     public void restartGame() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -163,11 +176,10 @@ public class Game extends Pane {
                 return false;
             case FOUNDATION:
                 if (topCard != null) {
-                    System.out.println("NO");
                     return(Card.isSameSuit(card, topCard) && card.getRank() == topCard.getRank() + 1);}
                 else{
-                    System.out.println("YES");
-                    return(card.getRankName().equals(RankEnum.ACE));}
+                    return(card.getRankName().equals(RankEnum.ACE));
+                }
             case TABLEAU:
                 if (topCard != null) return(Card.isOppositeColor(card, topCard) && card.getRank() == topCard.getRank() - 1);
                 else return(card.getRankName().equals(RankEnum.KING));
@@ -225,12 +237,12 @@ public class Game extends Pane {
 
         System.out.println(msg);
         draggedCards.clear();
-       isGameWon();
-       System.out.println(isGameWon());
-       if (isGameWon() == true){
-            restartGame();
-        }
-        System.out.println(isGameWon());
+//        isGameWon();
+//       System.out.println(isGameWon());
+//       if (isGameWon() == true){
+//            restartGame();
+//        }
+//        System.out.println(isGameWon());
     }
 
 
@@ -266,17 +278,74 @@ public class Game extends Pane {
         }
     }
 
+//    public void dealCards() {
+//        Iterator<Card> deckIterator = deck.iterator();
+//        //TODO
+//
+//        deckIterator.forEachRemaining(card -> {
+//            stockPile.addCard(card);
+//            addMouseEventHandlers(card);
+//            getChildren().add(card);
+//        });
+//
+//    }
+
+    List<Card> shuffleDeck = new ArrayList<>(deck.size());
+
     public void dealCards() {
+
+        int x = deck.size();
+        Random random = new Random();
+        List index = new ArrayList<>();
+
+        for (int i = 0; i < x; i++) {
+
+            int randomIndex = random.nextInt(deck.size() - 1);
+
+            if (!(index.contains(randomIndex))) {
+
+                shuffleDeck.add(deck.get(randomIndex));
+                deck.remove(randomIndex);
+                index.add(randomIndex);
+            }
+
+        }
+        //deck.clear();
+        deck.addAll(shuffleDeck);
+
+
         Iterator<Card> deckIterator = deck.iterator();
-        //TODO
 
         deckIterator.forEachRemaining(card -> {
             stockPile.addCard(card);
             addMouseEventHandlers(card);
             getChildren().add(card);
-        });
 
+        });
     }
+
+    public void unfoldingCards(){
+        ArrayList<Card> shuffleDeckPart = new ArrayList<Card>(shuffleDeck.subList(0, 28));
+        System.out.println(shuffleDeckPart);
+        int a = 0;
+
+        for(int i = 1; i < tableauPiles.size()+1; i++){
+
+            ArrayList<Card> dealPiles = new ArrayList<Card>(shuffleDeckPart.subList(a,(a+i)));
+
+            for(int j = 0; j < dealPiles.size(); j++) {
+                //System.out.println(dealPiles.get(j));
+                tableauPiles.get(i-1).addCard(dealPiles.get(j));
+
+            }
+            a=a+i;
+            System.out.println(tableauPiles.get(i-1).getCards());
+            tableauPiles.get(i-1).getTopCard().flip();
+
+        }
+    }
+
+
 
     public void setTableBackground(Image tableBackground) {
         setBackground(new Background(new BackgroundImage(tableBackground,

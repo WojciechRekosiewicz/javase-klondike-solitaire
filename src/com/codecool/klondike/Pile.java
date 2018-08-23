@@ -24,7 +24,6 @@ public class Pile extends Pane {
     }
 
     public PileType getPileType() {
-       // System.out.println(pileType);
         return pileType;
     }
 
