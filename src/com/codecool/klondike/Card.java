@@ -39,6 +39,7 @@ public class Card extends ImageView {
     }
 
     public int getRank() {
+        System.out.println(rank.value);
         return rank.value;
     }
 
@@ -68,8 +69,11 @@ public class Card extends ImageView {
         System.out.println("OLD PILE B4" + oldPile.getCards());
         System.out.println("NEW PILE B4" + destPile.getCards());
 
-        this.getContainingPile().getCards().remove(this);
+        oldPile.getCards().remove(this);
         destPile.addCard(this);
+        if (oldPile.getTopCard().isFaceDown()) {
+            oldPile.getTopCard().flip();
+        }
         System.out.println("\nOLD PILE AFT" + oldPile.getCards());
         System.out.println("NEW PILE AFT" + destPile.getCards());
     }
@@ -81,16 +85,15 @@ public class Card extends ImageView {
 
     @Override
     public String toString() {
-        return "The " + "Rank" + rank.value + " of " + "Suit" + suit.name;
+        return "The " + "Rank " + rank.value + " of " + "Suit " + suit.name;
     }
 
     public static boolean isOppositeColor(Card card1, Card card2) {
-        //TODO
-        return true;
+        return (!card1.suit.color.equals(card2.suit.color));
     }
 
     public static boolean isSameSuit(Card card1, Card card2) {
-        return card1.getSuit() == card2.getSuit();
+        return card1.suit.name.equals(card2.suit.name);
     }
 
     public static List<Card> createNewDeck() {
@@ -121,7 +124,6 @@ public class Card extends ImageView {
             }
         }
     }
-
 }
 
 
