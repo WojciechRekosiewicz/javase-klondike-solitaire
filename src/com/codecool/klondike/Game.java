@@ -98,23 +98,39 @@ public class Game extends Pane {
     }
 
     public void restartGame() {
-        if (isGameWon() == true) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Kongrateljszyn");
-            alert.setHeaderText("You WIN!");
-            alert.setContentText("Are you want to restart?");
-            Optional<ButtonType> option = alert.showAndWait();
-            if (option.get() == null) {
-                this.label.setText("No selection!");
-            } else if (option.get() == ButtonType.OK) {
-                System.out.println("ok");
-            } else if (option.get() == ButtonType.CANCEL) {
-                System.exit(0);
-            } else {
-                this.label.setText("-");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Kongrateljszyn");
+        alert.setHeaderText("You WIN!");
+        alert.setContentText("Are you want to restart?");
+        Optional<ButtonType> option = alert.showAndWait();
+
+        if (option.get() == null) {
+            this.label.setText("No selection!");
+        } else if (option.get() == ButtonType.OK) {
+
+            stockPile.clear();
+            discardPile.clear();
+            for (int i = 0; i < 4; i++){
+                foundationPiles.get(i).clear();
             }
+            for (int i = 0; i < 7; i++){
+                tableauPiles.get(i).clear();
+            }
+
+            this.setTableBackground(new Image("/table/green.png"));
+            deck = Card.createNewDeck();
+            initPiles();
+            dealCards();
+
+
+        } else if (option.get() == ButtonType.CANCEL) {
+            System.exit(0);
+        } else {
+            this.label.setText("-");
         }
     }
+
+
 
     public Game() {
         deck = Card.createNewDeck();
